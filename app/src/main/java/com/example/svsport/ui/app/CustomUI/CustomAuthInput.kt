@@ -1,9 +1,11 @@
 package com.example.svsport.ui.app.CustomUI
 
+import android.icu.text.ListFormatter.Width
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Icon
@@ -25,6 +27,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.max
 import com.example.svsport.R
@@ -38,9 +41,12 @@ fun CustomAuthInput(
 
     image: Int,
     label: String,
-    onValueChange: () -> Unit,
+    onValueChange: (String) -> Unit,
     isNumber: Boolean = false,
-    isPassword: Boolean = false
+    isPassword: Boolean = false,
+    isMaxWidth: Boolean = true,
+    width: Dp = Dp.Unspecified,
+    isInt: Boolean = false
 
 ) {
 
@@ -50,7 +56,7 @@ fun CustomAuthInput(
     TextField(
 
         modifier = Modifier
-            .fillMaxWidth(),
+            .then(if(isMaxWidth) Modifier.fillMaxWidth() else Modifier.width(width)),
 
         shape = RoundedCornerShape(14.dp),
 
@@ -71,7 +77,7 @@ fun CustomAuthInput(
 
             if (filterText != textFieldValue) {
                 textFieldValue = filterText
-                onValueChange()
+                onValueChange(filterText)
             }
         },
 
@@ -110,7 +116,7 @@ fun CustomAuthInput(
 
         keyboardOptions = KeyboardOptions.Default.copy(
 
-            keyboardType = if (isNumber) KeyboardType.Number else KeyboardType.Text
+            keyboardType = if (isNumber || isInt) KeyboardType.Number else KeyboardType.Text
 
         ),
 

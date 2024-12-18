@@ -21,3 +21,5 @@ val GrayTextAuth = Color(0xFFADA4A5)
 val GrayWhite = Color(0xFFDDDADA)
 val WelcomeGray = Color(0xFFB6B4C2)
 val GrayBLack = Color(0xFF7B6F72)
+
+val WhiteForComponent = Color(0x4DFFFFFF)

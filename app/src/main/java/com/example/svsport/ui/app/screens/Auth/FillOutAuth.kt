@@ -5,6 +5,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -14,15 +15,20 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.translate
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.svsport.R
 import com.example.svsport.ui.app.CustomUI.CustomAuthInput
+import com.example.svsport.ui.app.CustomUI.CustomComponentAuth
 import com.example.svsport.ui.app.CustomUI.CustomNextButton
 import com.example.svsport.ui.theme.AuthMainText
 import com.example.svsport.ui.theme.AuthMinorText
@@ -32,14 +38,19 @@ import com.example.svsport.ui.theme.Purple
 @Composable
 fun FillOutAuth(
 
-
+    onNavigateToMainScreen: (String, String) -> Unit
 
 ) {
+
+    val weight = remember { mutableStateOf("") }
+    val height = remember { mutableStateOf("")}
 
     Surface(
 
         modifier = Modifier
-            .fillMaxSize()
+            .fillMaxSize(),
+
+        color = Color.White
 
     ) {
 
@@ -120,7 +131,7 @@ fun FillOutAuth(
                     .fillMaxWidth(),
 
                 verticalArrangement = Arrangement.spacedBy(15.dp),
-                horizontalAlignment = Alignment.CenterHorizontally
+                horizontalAlignment = Alignment.Start
 
             ) {
 
@@ -140,21 +151,51 @@ fun FillOutAuth(
 
                 )
 
-                CustomAuthInput(
+                Row(
 
-                    image = R.drawable.weigth,
-                    label = "Your Weight",
-                    onValueChange = { /*TODO*/ }
+                    modifier = Modifier.fillMaxWidth(),
 
-                )
+                    horizontalArrangement = Arrangement.SpaceBetween
 
-                CustomAuthInput(
+                ) {
 
-                    image = R.drawable.height,
-                    label = "Your Height",
-                    onValueChange = { /*TODO*/ }
+                    CustomAuthInput(
 
-                )
+                        image = R.drawable.weigth,
+                        label = "Your Weight",
+                        onValueChange = { weight.value = it},
+                        isMaxWidth = false,
+                        width = 240.dp,
+                        isInt = true
+
+                    )
+
+                    CustomComponentAuth(text = "KG")
+
+                }
+
+                Row(
+
+                    modifier = Modifier.fillMaxWidth(),
+
+                    horizontalArrangement = Arrangement.SpaceBetween
+
+                ){
+
+                    CustomAuthInput(
+
+                        image = R.drawable.height,
+                        label = "Your Height",
+                        onValueChange = { height.value = it },
+                        isMaxWidth = false,
+                        width = 240.dp,
+                        isInt = true
+
+                    )
+
+                    CustomComponentAuth(text = "CM")
+
+                }
 
             }
 
@@ -163,7 +204,7 @@ fun FillOutAuth(
 
             Box(modifier = Modifier.padding(horizontal = 40.dp)) {
 
-                CustomNextButton(label = "Next", onClick = {})
+                CustomNextButton(label = "Next", onClick = {onNavigateToMainScreen(weight.value, height.value)})
 
             }
 
@@ -177,6 +218,6 @@ fun FillOutAuth(
 @Preview(showBackground = true)
 private fun FillOutAuthPreview() {
 
-    FillOutAuth()
+    FillOutAuth(onNavigateToMainScreen = { weight, height -> })
 
 }

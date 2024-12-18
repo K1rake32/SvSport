@@ -47,7 +47,7 @@ import com.example.svsport.ui.theme.TeamConditionText
 @Composable
 fun AuthMainScreen(
 
-    onNavigateToStepTracker: () -> Unit
+    onNavigateToFillOut: () -> Unit
 
 ) {
 
@@ -178,7 +178,7 @@ fun AuthMainScreen(
 
             ) {
 
-                CustomNextButton(label = "Register", onClick = {onNavigateToStepTracker()})
+                CustomNextButton(label = "Register", onClick = {onNavigateToFillOut()})
 
                 Row(
 
@@ -296,6 +296,6 @@ fun AuthMainScreen(
 @Preview(showBackground = true)
 private fun AuthMainScreenPreview() {
 
-    AuthMainScreen(onNavigateToStepTracker = {})
+    AuthMainScreen(onNavigateToFillOut = {})
 
 }

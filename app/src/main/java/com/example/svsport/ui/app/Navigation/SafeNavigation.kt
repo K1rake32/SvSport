@@ -1,5 +1,6 @@
 package com.example.svsport.ui.app.Navigation
 
+import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.NavHost
@@ -7,6 +8,8 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.svsport.ui.app.screens.Auth.AuthMainScreen
+import com.example.svsport.ui.app.screens.Auth.FillOutAuth
+import com.example.svsport.ui.app.screens.Main.MainScreen
 import com.example.svsport.ui.app.screens.Main.StepTrackerScreen
 import com.example.svsport.ui.app.screens.OnBoarding.OnBoardingScreenOne
 import com.example.svsport.ui.app.screens.OnBoarding.OnBoardingScreenThree
@@ -19,6 +22,12 @@ sealed class Screen(val route: String) {
     object OnBoardingTwo: Screen("onboarding_two")
     object OnBoardingThree: Screen("onboarding_three")
     object AuthMain : Screen("auth_main")
+    object FillOutAuth: Screen("fill_out")
+    object MainScreen: Screen("main_screen/{weight}/{height}") {
+
+        fun createRoute(weight: String, height: String) = "main_screen/$weight/$height"
+
+    }
     object StepTracker : Screen("step_tracker")
 }
 
@@ -63,10 +72,24 @@ fun AppNavHost(navController: NavHostController) {
 
         composable(Screen.AuthMain.route) {
             AuthMainScreen(
-                onNavigateToStepTracker = {
-                    navController.navigate(Screen.StepTracker.route)
+                onNavigateToFillOut = {
+                    navController.navigate(Screen.FillOutAuth.route)
                 }
             )
+        }
+
+        composable(Screen.FillOutAuth.route) {
+            FillOutAuth(
+                onNavigateToMainScreen = { weight, height ->
+                    navController.navigate(Screen.MainScreen.createRoute(weight.toString(), height.toString()))
+                }
+            )
+        }
+
+        composable(Screen.MainScreen.route) { backStackEntry ->
+            val weight = backStackEntry.arguments?.getString("weight") ?: ""
+            val height = backStackEntry.arguments?.getString("height") ?: ""
+            MainScreen(weight = weight, height = height)
         }
 
         composable(Screen.StepTracker.route) {

@@ -114,4 +114,26 @@ val Typography.AuthMinorText: TextStyle
         fontFamily = PoppinsRegular
     )
 
+val Typography.CustomComponentAuth: TextStyle
+    get() = TextStyle(
+        fontSize = 14.sp,
+        color = Color.White,
+        fontFamily = PoppinsBold
+    )
+
+val Typography.MinorComponentAuth: TextStyle
+    get() = TextStyle(
+        fontSize = 12.sp,
+        color = Color.White,
+        fontFamily = PoppinsRegular
+    )
+
+val Typography.ButtonMainScreen: TextStyle
+    get() = TextStyle(
+        fontSize = 10.sp,
+        color = Color.White,
+        fontFamily = PoppinsBold
+    )
+
+
 
