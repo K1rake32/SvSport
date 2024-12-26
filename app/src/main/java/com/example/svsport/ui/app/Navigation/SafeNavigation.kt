@@ -35,7 +35,7 @@ sealed class Screen(val route: String) {
 fun AppNavHost(navController: NavHostController) {
     NavHost(
         navController = navController,
-        startDestination = Screen.Welcome.route
+        startDestination = Screen.StepTracker.route
     ) {
 
         composable(Screen.Welcome.route) {

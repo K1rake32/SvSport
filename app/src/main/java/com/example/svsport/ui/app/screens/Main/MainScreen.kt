@@ -2,6 +2,7 @@ package com.example.svsport.ui.app.screens.Main
 
 import android.util.Log
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -11,6 +12,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -18,6 +21,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draganddrop.DragAndDropModifierNode
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -27,6 +32,12 @@ import com.example.svsport.ui.app.CustomUI.CustomIndexMass
 import com.example.svsport.ui.theme.AuthMainText
 import com.example.svsport.ui.theme.AuthMinorText
 import com.example.svsport.ui.theme.MinorAuth
+import com.example.svsport.ui.theme.MinorComponentAuth
+import com.example.svsport.ui.theme.Pink
+import com.example.svsport.ui.theme.PinkButton
+import com.example.svsport.ui.theme.Purple
+import com.example.svsport.ui.theme.PurpleButton
+import com.example.svsport.ui.theme.TodayTarget
 
 @Composable
 fun MainScreen(
@@ -36,42 +47,10 @@ fun MainScreen(
 
 ) {
 
-    Log.d("MainScreen", "Received weight: $weight, Received height: $height")
-
     val weightFloat = weight.toFloatOrNull()
     val heightFloat = height.toFloatOrNull()
 
-    if (weightFloat == 0f || heightFloat == 0f) {
-        Log.d("MainScreen", "Некорректные данные: вес = $weight, рост = $height")
-    }
-
-    Log.d("MainScreen", "Received weight: $weight, Received height: $height")
-
-    Log.d("MainScreen", "WeightFloat: $weightFloat, HeightFloat: $heightFloat")
-
-    if (weightFloat == null || heightFloat == null || weightFloat <= 0f || heightFloat <= 0f) {
-        return Surface(
-            modifier = Modifier.fillMaxSize(),
-            color = Color.White
-        ) {
-            Column(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(top = 40.dp)
-                    .padding(horizontal = 30.dp)
-            ) {
-                Text(
-                    text = "Некорректные данные для расчета ИМТ.",
-                    style = MaterialTheme.typography.AuthMainText,
-                    color = Color.Red
-                )
-            }
-        }
-    }
-
     val heightM = heightFloat?.div(100) ?: 0f
-
-    Log.d("MainScreen", "Height in meters: $heightM")
 
     val bmi = if (weightFloat != null && heightM > 0f) {
         weightFloat / (heightM * heightM)
@@ -79,9 +58,9 @@ fun MainScreen(
         0f
     }
 
-    val bmiFormatted = "%.1f".format(bmi)
+    val brush = Brush.linearGradient(listOf(PurpleButton, PinkButton))
 
-    Log.d("MainScreen", "Calculated BMI: $bmiFormatted")
+    val bmiFormatted = "%.1f".format(bmi).replace(",", ".")
 
     Surface (
 
@@ -145,14 +124,72 @@ fun MainScreen(
             
             Spacer(modifier = Modifier.height(30.dp))
 
-            CustomIndexMass(90f,)
+            val availableWeight = when {
 
-            Text(
+                bmi <= 18 -> "under"
+                bmi > 18 && bmi < 25  -> "normal"
+                else -> "over"
 
-                text = bmiFormatted,
-                style = MaterialTheme.typography.AuthMainText
+            }
 
-            )
+            CustomIndexMass(value = 360f, label = "You have a $availableWeight weight", iMT = bmiFormatted)
+
+            Spacer(modifier = Modifier.height(30.dp))
+
+            Box(
+
+                modifier = Modifier
+
+                    .fillMaxWidth()
+                    .clip(RoundedCornerShape(16.dp))
+                    .background(Pink.copy(alpha = 0.3f))
+
+            ) {
+
+                Row(
+
+                    modifier = Modifier
+                        .padding(vertical = 16.dp)
+                        .padding(horizontal = 20.dp)
+                        .fillMaxWidth(),
+
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically
+
+                ) {
+
+                    Text(
+
+                        text = "Today Target",
+                        style = MaterialTheme.typography.TodayTarget
+
+                    )
+
+                    Box(
+
+                        modifier = Modifier
+                            .clip(RoundedCornerShape(50.dp))
+                            .background(brush)
+
+
+                    ) {
+
+                        Text(
+
+                            modifier = Modifier
+                                .padding(horizontal = 15.dp)
+                                .padding(vertical = 5.dp),
+
+                            text = "Check",
+                            style = MaterialTheme.typography.MinorComponentAuth
+
+                        )
+
+                    }
+
+                }
+
+            }
 
         }
 
@@ -164,6 +201,6 @@ fun MainScreen(
 @Preview(showBackground = true)
 private fun MainScreenPreview() {
 
-    MainScreen(weight = "90", height = "180")
+    MainScreen(weight = "80", height = "180")
 
 }

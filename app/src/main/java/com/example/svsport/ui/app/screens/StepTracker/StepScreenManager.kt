@@ -7,7 +7,7 @@ import android.hardware.SensorManager
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 
-class StepCounterManager(context: Context) : SensorEventListener {
+class StepCounterManager(private val context: Context) : SensorEventListener {
 
     private val sensorManager: SensorManager = context.getSystemService(Context.SENSOR_SERVICE) as SensorManager
     private val sensor: Sensor? = sensorManager.getDefaultSensor(Sensor.TYPE_STEP_DETECTOR)
@@ -25,12 +25,20 @@ class StepCounterManager(context: Context) : SensorEventListener {
         event?.let {
             if (it.sensor.type == Sensor.TYPE_STEP_DETECTOR) {
                 _stepCount.value += 1
+
+                StepCounterPreferences.saveStepCount(context = context, _stepCount.value)
             }
         }
     }
 
     override fun onAccuracyChanged(sensor: Sensor?, accuracy: Int) {
 
+    }
+
+    fun register() {
+        sensor?.let {
+            sensorManager.registerListener(this, it, SensorManager.SENSOR_DELAY_FASTEST)
+        }
     }
 
     fun unregister() {

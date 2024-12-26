@@ -1,5 +1,7 @@
 package com.example.svsport.ui.app.CustomUI
 
+import android.graphics.Typeface
+import android.util.Log
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -22,8 +24,15 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.nativeCanvas
+import androidx.compose.ui.graphics.toArgb
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import androidx.core.content.res.ResourcesCompat
+import com.example.svsport.R
 import com.example.svsport.ui.app.CustomUI.CanvasDrawing.CanvasCircle
 import com.example.svsport.ui.theme.ButtonMainScreen
 import com.example.svsport.ui.theme.CustomComponentAuth
@@ -32,14 +41,22 @@ import com.example.svsport.ui.theme.Pink
 import com.example.svsport.ui.theme.PinkButton
 import com.example.svsport.ui.theme.Purple
 import com.example.svsport.ui.theme.PurpleButton
+import com.example.svsport.ui.theme.WhiteForComponent
+import kotlin.math.cos
+import kotlin.math.sin
 
 @Composable
 fun CustomIndexMass(
 
     value: Float,
     total: Float = 360f,
+    label: String,
+    iMT: String
 
 ) {
+
+    val context = LocalContext.current
+    val density = LocalDensity.current
 
     val brush = Brush.linearGradient(listOf(Pink, Purple))
 
@@ -84,14 +101,14 @@ fun CustomIndexMass(
                         style = MaterialTheme.typography.CustomComponentAuth
 
                     )
-                    
+
                     Text(
 
-                        text = "You have a normal weight",
+                        text = label,
                         style = MaterialTheme.typography.MinorComponentAuth
 
                     )
-                    
+
                     Spacer(modifier = Modifier.height(15.dp))
 
                     Box(
@@ -132,48 +149,90 @@ fun CustomIndexMass(
 
                     )
 
-                    drawArc(
-                        brush = brush,
-                        startAngle = -90f,
-                        sweepAngle = (value / total) * 360f,
-                        useCenter = true,
-                        size = arcSize,
-                        topLeft = Offset(
+                    val iMTFloat = iMT.toFloatOrNull() ?: 0f
 
-                            x = -arcPadding / 2,
-                            y = - arcPadding / 2
-
+                    val progressAngl = if (iMTFloat != null) {
+                        when {
+                            iMTFloat < 10f -> 0f
+                            iMTFloat > 40f -> 360f
+                            else -> ((iMTFloat - 10f) / 30f) * 360f
+                        }
+                    } else {
+                        0f
+                    }
+                        drawArc(
+                            brush = brush,
+                            startAngle = -90f,
+                            sweepAngle = progressAngl,
+                            useCenter = true,
+                            size = arcSize,
+                            topLeft = Offset(
+                                x = -arcPadding / 2,
+                                y = -arcPadding / 2
+                            )
                         )
+
+                    val typeface = Typeface.create(
+                        ResourcesCompat.getFont(context, R.font.poppins_bold),
+                        Typeface.NORMAL
+                    )
+
+                    val textPaint = android.graphics.Paint().apply {
+                        color = Color.Black.toArgb()
+                        textSize = with(density) {12.sp.toPx()}
+                        this.typeface = typeface
+                        isAntiAlias = true
+                    }
+
+                    val progressAngle = when {
+                        iMTFloat < 10f -> 0f
+                        iMTFloat > 40f -> 360f
+                        else -> ((iMTFloat - 10f) / 30f) * 360f
+                    }
+
+                    val middleAngle = Math.toRadians((progressAngle / 2 - 80).toDouble())
+                    val textRadius = radius * 0.8f
+
+                    val dynamicX = (size.width / 3 + textRadius * cos(middleAngle)).toFloat()
+                    val dynamicY = (size.height / 2 + textRadius * sin(middleAngle)).toFloat()
+
+                    drawContext.canvas.nativeCanvas.drawText(
+                        iMT,
+                        dynamicX,
+                        dynamicY,
+                        textPaint
+
                     )
 
                 }
 
-            }
-
-            Spacer(modifier = Modifier.height(0.dp))
-
-            Box(
-                modifier = Modifier
-
-                    .fillMaxWidth()
-                    .height(0.dp),
-
-                contentAlignment = Alignment.BottomEnd
-            ) {
-
-                CanvasCircle(x = 150.dp, y = 10.dp, radiusCircle = 35.dp)
-
-                CanvasCircle(x = -150.dp, y = 25.dp, radiusCircle = 25.dp)
-
-                CanvasCircle(x = -30.dp, y = -10.dp, radiusCircle = 5.dp)
-
-                CanvasCircle(x = 20.dp, y = 10.dp, radiusCircle = 5.dp)
-
-                CanvasCircle(x = 4.dp, y = -92.dp, radiusCircle = 5.dp)
-
-                CanvasCircle(x = -55.dp, y = -100.dp, radiusCircle = 5.dp)
 
             }
+
+        }
+
+        Spacer(modifier = Modifier.height(0.dp))
+
+        Box(
+            modifier = Modifier
+
+                .fillMaxWidth()
+                .height(0.dp),
+
+            contentAlignment = Alignment.BottomEnd
+        ) {
+
+            CanvasCircle(x = 160.dp, y = 150.dp, radiusCircle = 35.dp)
+
+            CanvasCircle(x = -165.dp, y = 150.dp, radiusCircle = 25.dp)
+
+            CanvasCircle(x = 3.dp, y = 25.dp, radiusCircle = 5.dp)
+
+            CanvasCircle(x = 30.dp, y = 135.dp, radiusCircle = 5.dp)
+
+            CanvasCircle(x = -55.dp, y = 15.dp, radiusCircle = 5.dp)
+
+            CanvasCircle(x = -30.dp, y = 115.dp, radiusCircle = 5.dp)
 
         }
 
@@ -181,10 +240,11 @@ fun CustomIndexMass(
 
 }
 
+
 @Composable
 @Preview
 private fun CustomIndexMassPreview() {
 
-    CustomIndexMass(120f,)
+    CustomIndexMass(360f, label = "You have a normal weight", iMT = "30")
 
 }

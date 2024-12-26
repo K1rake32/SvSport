@@ -24,6 +24,12 @@ val PoppinsRegular = FontFamily(
 
 )
 
+val PoppinsMedium = FontFamily(
+
+    Font(R.font.poppins_medium, FontWeight.Medium)
+
+)
+
 val brush = Brush.linearGradient(listOf(PurpleButton, PinkButton))
 
 val Typography = Typography(
@@ -134,6 +140,21 @@ val Typography.ButtonMainScreen: TextStyle
         color = Color.White,
         fontFamily = PoppinsBold
     )
+
+val Typography.TodayTarget: TextStyle
+    get() = TextStyle(
+        fontSize = 14.sp,
+        color = Color.Black,
+        fontFamily = PoppinsMedium
+    )
+
+val Typography.MainAppBar: TextStyle
+    get() = TextStyle(
+        fontSize = 16.sp,
+        color = Color.Black,
+        fontFamily = PoppinsBold
+    )
+
 
 
 

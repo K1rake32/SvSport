@@ -24,6 +24,7 @@ import androidx.navigation.compose.rememberNavController
 import com.example.svsport.ui.app.Navigation.AppNavHost
 import com.example.svsport.ui.app.Navigation.AppPreview
 import com.example.svsport.ui.app.screens.StepTracker.StepCounterManager
+import com.example.svsport.ui.app.screens.StepTracker.createNotificationChannel
 import com.example.svsport.ui.theme.SvSportTheme
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.isGranted
@@ -38,6 +39,8 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+
+        createNotificationChannel(this)
 
         stepCounterManager = StepCounterManager(this)
 
