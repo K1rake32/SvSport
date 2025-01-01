@@ -22,4 +22,7 @@ val GrayWhite = Color(0xFFDDDADA)
 val WelcomeGray = Color(0xFFB6B4C2)
 val GrayBLack = Color(0xFF7B6F72)
 
-val WhiteForComponent = Color(0x4DFFFFFF)
+val Gray3 = Color(0xFFC6C4D4)
+
+val Green = Color(0xFF00FF66)
+val Blue = Color(0xFF00F0FF)

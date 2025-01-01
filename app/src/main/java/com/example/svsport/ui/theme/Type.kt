@@ -155,6 +155,26 @@ val Typography.MainAppBar: TextStyle
         fontFamily = PoppinsBold
     )
 
+val Typography.MainNotification: TextStyle
+    get() = TextStyle(
+        fontSize = 12.sp,
+        color = Color.Black,
+        fontFamily = PoppinsMedium
+    )
+
+val Typography.Meaning: TextStyle
+    get() = TextStyle(
+        fontSize = 14.sp,
+        brush = brush,
+        fontFamily = PoppinsMedium
+    )
+
+val Typography.MeaningMinor: TextStyle
+    get() = TextStyle(
+        fontSize = 12.sp,
+        color = WelcomeGray,
+        fontFamily = PoppinsMedium
+    )
 
 
 

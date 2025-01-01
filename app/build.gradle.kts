@@ -77,4 +77,5 @@ dependencies {
 
     //Permission
     implementation ("com.google.accompanist:accompanist-permissions:0.32.0")
+
 }

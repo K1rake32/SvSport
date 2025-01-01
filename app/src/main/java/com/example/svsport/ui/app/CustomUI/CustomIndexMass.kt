@@ -41,7 +41,6 @@ import com.example.svsport.ui.theme.Pink
 import com.example.svsport.ui.theme.PinkButton
 import com.example.svsport.ui.theme.Purple
 import com.example.svsport.ui.theme.PurpleButton
-import com.example.svsport.ui.theme.WhiteForComponent
 import kotlin.math.cos
 import kotlin.math.sin
 
@@ -178,7 +177,7 @@ fun CustomIndexMass(
                     )
 
                     val textPaint = android.graphics.Paint().apply {
-                        color = Color.Black.toArgb()
+                        color = Color.White.toArgb()
                         textSize = with(density) {12.sp.toPx()}
                         this.typeface = typeface
                         isAntiAlias = true

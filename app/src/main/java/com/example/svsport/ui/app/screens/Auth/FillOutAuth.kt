@@ -38,7 +38,9 @@ import com.example.svsport.ui.theme.Purple
 @Composable
 fun FillOutAuth(
 
-    onNavigateToMainScreen: (String, String) -> Unit
+    onNavigateToMainScreen: (String, String) -> Unit,
+    onNavigateToProfileScreen: (String, String) -> Unit
+
 
 ) {
 
@@ -218,6 +220,6 @@ fun FillOutAuth(
 @Preview(showBackground = true)
 private fun FillOutAuthPreview() {
 
-    FillOutAuth(onNavigateToMainScreen = { weight, height -> })
+    FillOutAuth(onNavigateToMainScreen = { weight, height -> }, onNavigateToProfileScreen = { weight, height -> })
 
 }

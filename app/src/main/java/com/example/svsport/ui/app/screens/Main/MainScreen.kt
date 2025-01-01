@@ -3,6 +3,7 @@ package com.example.svsport.ui.app.screens.Main
 import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -43,7 +44,10 @@ import com.example.svsport.ui.theme.TodayTarget
 fun MainScreen(
 
     weight: String,
-    height: String
+    height: String,
+
+    onNavigateToProfile: () -> Unit
+
 
 ) {
 
@@ -139,7 +143,6 @@ fun MainScreen(
             Box(
 
                 modifier = Modifier
-
                     .fillMaxWidth()
                     .clip(RoundedCornerShape(16.dp))
                     .background(Pink.copy(alpha = 0.3f))
@@ -178,7 +181,8 @@ fun MainScreen(
 
                             modifier = Modifier
                                 .padding(horizontal = 15.dp)
-                                .padding(vertical = 5.dp),
+                                .padding(vertical = 5.dp)
+                                .clickable { onNavigateToProfile() },
 
                             text = "Check",
                             style = MaterialTheme.typography.MinorComponentAuth
@@ -201,6 +205,6 @@ fun MainScreen(
 @Preview(showBackground = true)
 private fun MainScreenPreview() {
 
-    MainScreen(weight = "80", height = "180")
+    MainScreen(weight = "80", height = "180", {})
 
 }
