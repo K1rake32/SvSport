@@ -1,5 +1,7 @@
 package com.example.svsport.ui.app.screens.Main
 
+import android.Manifest
+import android.os.Build
 import android.text.BoringLayout
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -22,9 +24,11 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CardElevation
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -33,14 +37,17 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.svsport.R
+import com.example.svsport.ui.app.Application.MyApp
 import com.example.svsport.ui.app.CustomUI.CardProfile
 import com.example.svsport.ui.app.CustomUI.CustomAppBar
 import com.example.svsport.ui.app.CustomUI.CustomSwitchNotification
 import com.example.svsport.ui.app.CustomUI.MainCardProfile
+import com.example.svsport.ui.app.Notification.NotificationService
 import com.example.svsport.ui.app.data.AccountData
 import com.example.svsport.ui.theme.AuthMinorText
 import com.example.svsport.ui.theme.MainAppBar
@@ -50,6 +57,10 @@ import com.example.svsport.ui.theme.Pink
 import com.example.svsport.ui.theme.PinkButton
 import com.example.svsport.ui.theme.PurpleButton
 import com.example.svsport.ui.theme.TodayTarget
+import com.google.accompanist.permissions.ExperimentalPermissionsApi
+import com.google.accompanist.permissions.isGranted
+import com.google.accompanist.permissions.rememberPermissionState
+import kotlin.coroutines.coroutineContext
 
 val accountList1 = listOf(
 
@@ -164,8 +175,6 @@ fun ProfileScreen(
                 .fillMaxSize()
 
         ) {
-
-            Spacer(modifier = Modifier.height(40.dp))
 
             CustomAppBar(label = "Profile")
 
@@ -335,6 +344,7 @@ private fun My6Card(
 
 }*/
 
+@OptIn(ExperimentalPermissionsApi::class)
 @Composable
 fun AccountDesign(
 
@@ -343,7 +353,10 @@ fun AccountDesign(
 
 ) {
 
-    val checkedState = remember { mutableStateOf(true)}
+    val context = LocalContext.current
+    val notificationService = NotificationService(context)
+
+    val checkedState = remember { mutableStateOf(false)}
 
     Row(
 
@@ -374,9 +387,31 @@ fun AccountDesign(
             )
 
         }
-        
+
         if (isSwitch) {
-            
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+
+                val permissionState = rememberPermissionState(
+
+                    permission = Manifest.permission.POST_NOTIFICATIONS
+
+                )
+
+                if (!permissionState.status.isGranted && Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                    LaunchedEffect(Unit) {
+                        permissionState.launchPermissionRequest()
+                    }
+                }
+
+                if (checkedState.value) {
+                    LaunchedEffect(checkedState.value) {
+                        notificationService.showNotification()
+                    }
+                }
+
+            }
+
             CustomSwitchNotification(
 
                 isChecked = checkedState.value,
@@ -388,7 +423,7 @@ fun AccountDesign(
 
             )
 
-            
+
         } else {
 
             Image(

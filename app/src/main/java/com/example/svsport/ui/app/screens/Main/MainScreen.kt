@@ -46,7 +46,8 @@ fun MainScreen(
     weight: String,
     height: String,
 
-    onNavigateToProfile: () -> Unit
+    onNavigateToProfile: () -> Unit,
+    onNavigateToNotification: () -> Unit
 
 
 ) {
@@ -118,6 +119,9 @@ fun MainScreen(
                 }
 
                 Image(
+
+                    modifier = Modifier
+                        .clickable { onNavigateToNotification() },
 
                     painter = painterResource(id = R.drawable.bell),
                     contentDescription = ""
@@ -205,6 +209,6 @@ fun MainScreen(
 @Preview(showBackground = true)
 private fun MainScreenPreview() {
 
-    MainScreen(weight = "80", height = "180", {})
+    MainScreen(weight = "80", height = "180", {}, {})
 
 }

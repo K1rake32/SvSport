@@ -22,6 +22,7 @@ import com.example.svsport.ui.theme.Green
 
 @Composable
 fun CustomSwitchNotification(
+
     isChecked: Boolean,
     onCheckedChange: (Boolean) -> Unit,
     modifier: Modifier = Modifier,
@@ -31,6 +32,7 @@ fun CustomSwitchNotification(
     thumbSize: Dp = 14.dp,
     trackHeight: Dp = 24.dp,
     trackWidth: Dp = 44.dp
+
 ) {
 
     val offset by animateDpAsState(targetValue = if (isChecked) trackWidth - thumbSize - 10.dp else 0.dp)

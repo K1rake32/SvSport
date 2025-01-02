@@ -86,12 +86,18 @@ val notificationList = listOf(
 
     )
 @Composable
-fun NotificationScreen() {
+fun NotificationScreen(
+
+    onNavigateBack: () -> Unit
+
+) {
 
     Surface(
 
         modifier = Modifier
-            .fillMaxSize()
+            .fillMaxSize(),
+
+        color = Color.White
 
     ) {
 
@@ -226,15 +232,31 @@ fun NotificationDesign(
 
         Spacer(modifier = Modifier.height(15.dp))
 
-        Box(
+       if (index == notificationList.lastIndex) {
 
-            modifier = Modifier
-                .padding(horizontal = 30.dp)
-                .fillMaxWidth()
-                .height(1.dp)
-                .background(Gray3)
+           Box(
 
-        )
+               modifier = Modifier
+                   .padding(horizontal = 30.dp)
+                   .fillMaxWidth()
+                   .height(0.dp)
+                   .background(Gray3)
+
+           )
+
+       } else {
+
+           Box(
+
+               modifier = Modifier
+                   .padding(horizontal = 30.dp)
+                   .fillMaxWidth()
+                   .height(1.dp)
+                   .background(Gray3)
+
+           )
+
+       }
 
     }
 
@@ -245,7 +267,7 @@ fun NotificationDesign(
 @Preview(showBackground = true)
 private fun NotificationScreenPreview() {
 
-    NotificationScreen()
+    NotificationScreen({})
 
 }
 
