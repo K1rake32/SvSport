@@ -176,7 +176,7 @@ fun ProfileScreen(
 
         ) {
 
-            CustomAppBar(label = "Profile")
+            CustomAppBar(label = "Profile", clickable = {})
 
             Spacer(modifier = Modifier.height(35.dp))
 

@@ -77,7 +77,7 @@ fun AppNavHost(navController: NavHostController) {
 
         NavHost(
             navController = navController,
-            startDestination = Screen.FillOutAuth.route,
+            startDestination = Screen.Welcome.route,
             modifier = Modifier.padding(innerPadding)
         ) {
 
@@ -163,7 +163,7 @@ fun AppNavHost(navController: NavHostController) {
 
                     onNavigateBack = {
 
-
+                        navController.popBackStack()
 
                     }
 

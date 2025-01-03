@@ -110,7 +110,7 @@ fun NotificationScreen(
 
             Spacer(modifier = Modifier.height(10.dp))
 
-            CustomAppBar(label = "Notification")
+            CustomAppBar(label = "Notification", clickable = {onNavigateBack()})
 
             Spacer(modifier = Modifier.height(30.dp))
 

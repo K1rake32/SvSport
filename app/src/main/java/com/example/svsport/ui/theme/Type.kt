@@ -30,6 +30,12 @@ val PoppinsMedium = FontFamily(
 
 )
 
+val PoppinsSemiBold = FontFamily(
+
+    Font(R.font.poppins_semibold, FontWeight.SemiBold)
+
+)
+
 val brush = Brush.linearGradient(listOf(PurpleButton, PinkButton))
 
 val Typography = Typography(
@@ -175,6 +181,14 @@ val Typography.MeaningMinor: TextStyle
         color = WelcomeGray,
         fontFamily = PoppinsMedium
     )
+
+val Typography.TargetMain: TextStyle
+    get() = TextStyle(
+        fontSize = 14.sp,
+        color = Color.Black,
+        fontFamily = PoppinsSemiBold
+    )
+
 
 
 

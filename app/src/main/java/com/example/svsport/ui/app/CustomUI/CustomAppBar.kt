@@ -2,6 +2,7 @@ package com.example.svsport.ui.app.CustomUI
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
@@ -26,7 +27,8 @@ import com.example.svsport.ui.theme.MainAppBar
 @Composable
 fun CustomAppBar(
 
-    label: String
+    label: String,
+    clickable: () -> Unit
 
 ) {
 
@@ -47,6 +49,7 @@ fun CustomAppBar(
             modifier = Modifier
                 .clip(RoundedCornerShape(8.dp))
                 .background(Gray)
+                .clickable { clickable() }
 
         ) {
             
@@ -100,6 +103,6 @@ fun CustomAppBar(
 @Preview
 private fun CustomAppBarPreview() {
 
-    CustomAppBar(label = "Notification")
+    CustomAppBar(label = "Notification", {})
 
 }
