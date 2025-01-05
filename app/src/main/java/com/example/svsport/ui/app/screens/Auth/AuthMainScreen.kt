@@ -25,6 +25,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.internal.composableLambdaNInstance
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -38,11 +39,19 @@ import com.example.svsport.ui.app.CustomUI.CustomAuthCheckbox
 import com.example.svsport.ui.app.CustomUI.CustomAuthInput
 import com.example.svsport.ui.app.CustomUI.CustomButtonOnBoarding
 import com.example.svsport.ui.app.CustomUI.CustomNextButton
+import com.example.svsport.ui.theme.Gray
+import com.example.svsport.ui.theme.Gray3
 import com.example.svsport.ui.theme.GrayWhite
 import com.example.svsport.ui.theme.MainAuth
+import com.example.svsport.ui.theme.MainNotification
+import com.example.svsport.ui.theme.Meaning
 import com.example.svsport.ui.theme.MinorAuth
 import com.example.svsport.ui.theme.Strings
+import com.example.svsport.ui.theme.TargetMain
 import com.example.svsport.ui.theme.TeamConditionText
+import com.example.svsport.ui.theme.TodayTarget
+import com.example.svsport.ui.theme.brush
+
 
 @Composable
 fun AuthMainScreen(
@@ -52,6 +61,16 @@ fun AuthMainScreen(
 ) {
 
     val checkedState = remember { mutableStateOf(false)}
+
+    val name = remember { mutableStateOf("")}
+    val phone = remember { mutableStateOf("")}
+    val email = remember { mutableStateOf("")}
+    val password = remember { mutableStateOf("")}
+
+    val buttonEnabled = name.value.isNotEmpty() && phone.value.isNotEmpty()
+            && email.value.isNotEmpty()
+            && password.value.isNotEmpty()
+            && checkedState.value
 
     Surface(
 
@@ -105,7 +124,7 @@ fun AuthMainScreen(
 
                     image = R.drawable.profile,
                     label = "Full Name",
-                    onValueChange = {}
+                    onValueChange = {name.value = it}
 
                 )
 
@@ -113,7 +132,7 @@ fun AuthMainScreen(
 
                     image = R.drawable.phone,
                     label = "Phone Number",
-                    onValueChange = {},
+                    onValueChange = {phone.value = it},
                     isNumber = true
 
                 )
@@ -122,7 +141,7 @@ fun AuthMainScreen(
 
                     image = R.drawable.message,
                     label = "Email",
-                    onValueChange = {}
+                    onValueChange = {email.value = it}
 
                 )
 
@@ -130,7 +149,7 @@ fun AuthMainScreen(
 
                     image = R.drawable.password,
                     label = "Password",
-                    onValueChange = {},
+                    onValueChange = {password.value = it},
                     isPassword = true
 
                 )
@@ -178,7 +197,21 @@ fun AuthMainScreen(
 
             ) {
 
-                CustomNextButton(label = "Register", onClick = {onNavigateToFillOut()})
+                val colorButton = if(buttonEnabled) brush else Gray3
+
+                val onClickEnabled: () -> Unit = if (buttonEnabled) {
+
+                    {onNavigateToFillOut()}
+
+                } else  {{}}
+
+                CustomNextButton(
+
+                    label = "Register",
+                    onClick = onClickEnabled,
+                    background = colorButton
+
+                )
 
                 Row(
 
@@ -272,13 +305,24 @@ fun AuthMainScreen(
                 Row(
 
                     modifier = Modifier
-                        .padding(top = 30.dp)
+                        .padding(top = 30.dp),
+
+
+                    horizontalArrangement = Arrangement.spacedBy(5.dp)
 
                 ) {
 
                     Text(
 
-                        text = "Already have an account? Login"
+                        text = "Already have an account?",
+                        style = MaterialTheme.typography.TodayTarget
+
+                    )
+
+                    Text(
+
+                        text = "Login",
+                        style = MaterialTheme.typography.Meaning
 
                     )
 

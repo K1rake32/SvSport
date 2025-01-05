@@ -34,6 +34,7 @@ import com.example.svsport.ui.theme.AuthMainText
 import com.example.svsport.ui.theme.AuthMinorText
 import com.example.svsport.ui.theme.Pink
 import com.example.svsport.ui.theme.Purple
+import com.example.svsport.ui.theme.brush
 
 @Composable
 fun FillOutAuth(
@@ -206,7 +207,13 @@ fun FillOutAuth(
 
             Box(modifier = Modifier.padding(horizontal = 40.dp)) {
 
-                CustomNextButton(label = "Next", onClick = {onNavigateToMainScreen(weight.value, height.value)})
+                CustomNextButton(
+
+                    label = "Next",
+                    onClick = {onNavigateToMainScreen(weight.value, height.value)},
+                    brush
+
+                )
 
             }
 

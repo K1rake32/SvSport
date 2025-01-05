@@ -1,5 +1,6 @@
 package com.example.svsport.ui.app.CustomUI
 
+import android.text.style.BackgroundColorSpan
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -15,6 +16,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.svsport.ui.theme.ButtonNextText
@@ -27,18 +29,23 @@ import com.example.svsport.ui.theme.PurpleButton
 fun CustomNextButton(
 
     label:String,
-    onClick: () -> Unit
+    onClick: () -> Unit,
+    background: Any
 
 ) {
 
-    val brush = Brush.horizontalGradient(listOf(PurpleButton, PinkButton))
+    val backgroundModifier = when (background) {
+        is Brush -> Modifier.background(background)
+        is Color -> Modifier.background(background)
+        else -> throw IllegalArgumentException("Unsupported background type")
+    }
 
     Box(
 
         modifier = Modifier
             .fillMaxWidth()
             .clip(RoundedCornerShape(100.dp))
-            .background(brush)
+            .then(backgroundModifier)
             .clickable { onClick() }
             .padding(vertical = 18.dp),
 
@@ -61,7 +68,9 @@ fun CustomNextButton(
 @Preview
 private fun CustomNextButtonPreview() {
 
-    CustomNextButton(label = "Register", onClick = {})
+    val brush = Brush.horizontalGradient(listOf(PurpleButton, PinkButton))
+
+    CustomNextButton(label = "Register", onClick = {}, background = brush)
 
 }
 

@@ -19,6 +19,7 @@ import androidx.compose.ui.unit.dp
 import com.example.svsport.ui.app.CustomUI.CustomNextButton
 import com.example.svsport.ui.theme.MainWelcomeText
 import com.example.svsport.ui.theme.MinorWelcomeText
+import com.example.svsport.ui.theme.brush
 
 @Composable
 fun WelcomeScreen(
@@ -76,7 +77,8 @@ fun WelcomeScreen(
             CustomNextButton(
 
                 label = "Get Started",
-                onClick = {onNavigateToOneBoardingOne()}
+                onClick = {onNavigateToOneBoardingOne()},
+                background = brush
 
             )
 
