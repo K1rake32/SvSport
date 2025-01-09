@@ -7,6 +7,8 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextDecoration
+import androidx.compose.ui.text.style.TextDirection
 import androidx.compose.ui.unit.sp
 import com.example.svsport.R
 
@@ -37,6 +39,8 @@ val PoppinsSemiBold = FontFamily(
 )
 
 val brush = Brush.linearGradient(listOf(PurpleButton, PinkButton))
+
+val brushMale = Brush.linearGradient(listOf(Blue, Green))
 
 val Typography = Typography(
     bodyLarge = TextStyle(
@@ -188,6 +192,29 @@ val Typography.TargetMain: TextStyle
         color = Color.Black,
         fontFamily = PoppinsSemiBold
     )
+
+val Typography.DialogMale: TextStyle
+    get() = TextStyle(
+        fontSize = 14.sp,
+        brush = brushMale,
+        fontFamily = PoppinsSemiBold
+    )
+
+val Typography.DialogFemale: TextStyle
+    get() = TextStyle(
+        fontSize = 14.sp,
+        brush = brush,
+        fontFamily = PoppinsSemiBold
+    )
+
+val Typography.UnderLineText: TextStyle
+    get() = TextStyle(
+        fontSize = 12.sp,
+        color = GrayTextAuth,
+        fontFamily = PoppinsSemiBold,
+        textDecoration = TextDecoration.Underline
+    )
+
 
 
 

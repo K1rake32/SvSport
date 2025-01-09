@@ -2,6 +2,8 @@ package com.example.svsport.ui.app.screens.Auth
 
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -11,6 +13,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -20,6 +23,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.translate
@@ -30,8 +34,11 @@ import com.example.svsport.R
 import com.example.svsport.ui.app.CustomUI.CustomAuthInput
 import com.example.svsport.ui.app.CustomUI.CustomComponentAuth
 import com.example.svsport.ui.app.CustomUI.CustomNextButton
+import com.example.svsport.ui.app.Dialog.GenderDialog
 import com.example.svsport.ui.theme.AuthMainText
 import com.example.svsport.ui.theme.AuthMinorText
+import com.example.svsport.ui.theme.Gray
+import com.example.svsport.ui.theme.InputAuthText
 import com.example.svsport.ui.theme.Pink
 import com.example.svsport.ui.theme.Purple
 import com.example.svsport.ui.theme.brush
@@ -47,6 +54,16 @@ fun FillOutAuth(
 
     val weight = remember { mutableStateOf("") }
     val height = remember { mutableStateOf("")}
+
+    val openAlert = remember {
+
+        mutableStateOf(false)
+
+    }
+
+    val selectedGender = remember { mutableStateOf("Choose Gender")}
+
+
 
     Surface(
 
@@ -111,6 +128,9 @@ fun FillOutAuth(
 
                 Text(
 
+                    modifier = Modifier
+                        .clickable { openAlert.value = true },
+
                     text = "Let’s complete your profile",
                     style = MaterialTheme.typography.AuthMainText
 
@@ -138,13 +158,69 @@ fun FillOutAuth(
 
             ) {
 
-                CustomAuthInput(
+                Box(
 
-                    image = R.drawable.gender,
-                    label = "Choose Gender",
-                    onValueChange = { /*TODO*/ }
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .clip(RoundedCornerShape(15.dp))
+                        .background(Gray)
+                        .clickable { openAlert.value = true }
 
-                )
+                ) {
+
+                    if (openAlert.value) {
+
+                        GenderDialog(openDialog = openAlert, onGenderSelected  = { gender ->
+                            selectedGender.value = gender
+                        })
+
+                    }
+
+                    Row(
+
+                        modifier = Modifier
+                            .padding(horizontal = 15.dp)
+                            .padding(vertical = 20.dp)
+                            .fillMaxWidth(),
+
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                        verticalAlignment = Alignment.CenterVertically
+
+                    ) {
+
+                        Row(
+
+                            horizontalArrangement = Arrangement.spacedBy(10.dp),
+                            verticalAlignment = Alignment.CenterVertically
+
+                        ) {
+
+                            Image(
+
+                                painter = painterResource(id = R.drawable.gender),
+                                contentDescription = ""
+
+                            )
+
+                            Text(
+
+                                text = selectedGender.value,
+                                style = MaterialTheme.typography.InputAuthText
+
+                            )
+
+                        }
+
+                        Image(
+
+                            painter = painterResource(id = R.drawable.choose),
+                            contentDescription = ""
+
+                        )
+
+                    }
+
+                }
 
                 CustomAuthInput(
 
